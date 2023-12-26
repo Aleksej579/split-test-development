@@ -1,0 +1,30 @@
+@font-face {
+    font-family: "CallunaSansBold";
+    src: url("{{ '[CallunaSans-Bold]' | asset_url }}") format("[otf]");
+}
+/* @font-face {
+    font-family: "CallunaSansItalic";
+    src: url("{{ '[CallunaSans-Italic]' | asset_url }}") format("[otf]");
+} */
+@font-face {
+    font-family: "CallunaSansRegular";
+    src: url("{{ '[CallunaSans-Regular]' | asset_url }}") format("[otf]");
+}
+/* @font-face {
+    font-family: "CallunaSansBoldItalic";
+    src: url("{{ '[CallunaSansBoldItalic]' | asset_url }}") format("[otf]");
+} */
+
+@font-face {
+    font-family: "MusicaHint";
+    src: url("{{ '[MusicaHint.ttf]' | asset_url }}") format("[ttf]");
+}
+@font-face {
+    font-family: "Musica";
+    src: url("{{ '[Musica]' | asset_url }}") format("[ttf]");
+}
+
+@font-face {
+    font-family: "ParalexBold";
+    src: url("{{ '[Paralex Bold]' | asset_url }}") format("[ttf]");
+}

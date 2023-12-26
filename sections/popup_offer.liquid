@@ -1,0 +1,120 @@
+{{ 'popup_offer.css' | asset_url | stylesheet_tag }}
+{{ 'popup_offer__fonts.css' | asset_url | stylesheet_tag }}
+
+<article class="popup-offer">
+  {% if section.settings.popup_offer__show == true %}
+    {{ section.settings.popup_offer__image | image_url: width: 300 | image_tag }}
+    <div>
+      <p class="popup-offer__title">{{ section.settings.popup_offer__heading }}</p>
+      <p class="popup-offer__sub-title">{{ section.settings['popup_offer__sub-heading'] }}</p>
+      <ul>
+        {%- for block in section.blocks -%}
+          <li
+            class="popup_offer__product"
+            data-id="{{ block.settings['product-handle'].first_available_variant.id }}"
+          >
+            {{ block.settings['product-handle'] | image_url: width: 100 | image_tag }}
+            <div>
+              {% assign current_variant = block.settings['product-handle'].selected_or_first_available_variant %}
+              <p>SKU: {{ current_variant.sku }}</p>
+              <p>{{ block.settings['product-handle'].title }}</p>
+              <p>{{ block.settings['product-handle'].description }}</p>
+              <p>
+                <span>{{ block.settings['product-handle'].price | money }}</span>
+                <span>{{ block.settings['product-handle'].compare_at_price | money }}</span>
+              </p>
+            </div>
+          </li>
+        {%- endfor -%}
+        <button type="button">Add all to cart {% render 'icon-cart-shopping' %}</button>
+      </ul>
+    </div>
+  {% endif %}
+</article>
+
+<script>
+  let popupOffer = document.querySelector('.popup-offer');
+  let popupOffer_arrayId = popupOffer.querySelectorAll('.popup_offer__product');
+  let popupOffer_byButton = popupOffer.querySelector('button');
+  let popupOffer_productID = {
+    items: [],
+  };
+
+  popupOffer_arrayId.forEach((item) => {
+    let myObject = { id: item.dataset.id, quantity: 1 };
+    popupOffer_productID.items.push(myObject);
+  });
+
+  popupOffer_byButton.addEventListener('click', () => {
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(popupOffer_productID),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Popup offer",
+  "class": "popup_offer_wrapper",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "popup_offer__show",
+      "label": "Show popup_offer",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_offer__image",
+      "label": "Main image"
+    },
+    {
+      "type": "text",
+      "id": "popup_offer__heading",
+      "label": "Heading",
+      "default": "Get the look"
+    },
+    {
+      "type": "text",
+      "id": "popup_offer__sub-heading",
+      "label": "Sub heading",
+      "default": "For Business or Ceremony"
+    },
+    {
+      "type": "number",
+      "id": "popup_offer__delay",
+      "label": "Delay in seconds",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show-once__popup_offer",
+      "label": "Show only once per customer",
+      "default": false
+    }
+  ],
+  "max_blocks": 2,
+  "blocks": [
+    {
+      "name": "Products",
+      "type": "Products",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product-handle",
+          "label": "Product-Handle"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
