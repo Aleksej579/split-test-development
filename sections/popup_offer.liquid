@@ -69,6 +69,7 @@
       });
 
       popupOffer_byButton.addEventListener('click', () => {
+        popupOffer_wrapper.classList.add('is-hide-popup');
         fetch(window.Shopify.routes.root + 'cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
