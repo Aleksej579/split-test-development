@@ -89,7 +89,7 @@
         "popup_offer__image": "shopify://shop_images/1.png",
         "popup_offer__heading": "Get the look",
         "popup_offer__sub-heading": "For Business or Ceremony",
-        "popup_offer__delay": 4,
+        "popup_offer__delay": 2,
         "show-once__popup_offer": false
       }
     }

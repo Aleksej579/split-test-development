@@ -1,8 +1,13 @@
 {{ 'popup_offer.css' | asset_url | stylesheet_tag }}
 {{ 'popup_offer__fonts.css' | asset_url | stylesheet_tag }}
 
-<article class="popup-offer">
+<article
+  class="popup-offer"
+  data-delay="{{ section.settings.popup_offer__delay }}"
+  data-once="{{ section.settings.show-once__popup_offer }}"
+>
   {% if section.settings.popup_offer__show == true %}
+    <span class="icon-close-wrapper">{% render 'icon-close' %}</span>
     {{ section.settings.popup_offer__image | image_url: width: 300 | image_tag }}
     <div>
       <p class="popup-offer__title">{{ section.settings.popup_offer__heading }}</p>
@@ -33,37 +38,67 @@
 </article>
 
 <script>
+  let popupOffer_wrapper = document.querySelector('.popup_offer_wrapper');
   let popupOffer = document.querySelector('.popup-offer');
+  let popupOffer_iconClose = document.querySelector('.icon-close-wrapper');
   let popupOffer_arrayId = popupOffer.querySelectorAll('.popup_offer__product');
   let popupOffer_byButton = popupOffer.querySelector('button');
   let popupOffer_productID = {
     items: [],
   };
 
-  popupOffer_arrayId.forEach((item) => {
-    let myObject = { id: item.dataset.id, quantity: 1 };
-    popupOffer_productID.items.push(myObject);
-  });
+  if (popupOffer_wrapper && popupOffer && popupOffer_arrayId && popupOffer_byButton && popupOffer_iconClose) {
+    const displayPopupOffer = () => {
+      setTimeout(() => {
+        popupOffer_wrapper.classList.remove('is-hide-popup');
+      }, document.querySelector('.popup-offer').dataset.delay * 1000);
 
-  popupOffer_byButton.addEventListener('click', () => {
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(popupOffer_productID),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .catch((error) => {
-        console.error('Error:', error);
+      popupOffer_wrapper.addEventListener('click', (event) => {
+        if (event.target.classList.contains('popup_offer_wrapper')) {
+          popupOffer_wrapper.classList.add('is-hide-popup');
+        }
       });
-  });
+
+      popupOffer_iconClose.addEventListener('click', (event) => {
+        popupOffer_wrapper.classList.add('is-hide-popup');
+      });
+
+      popupOffer_arrayId.forEach((item) => {
+        let myObject = { id: item.dataset.id, quantity: 1 };
+        popupOffer_productID.items.push(myObject);
+      });
+
+      popupOffer_byButton.addEventListener('click', () => {
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(popupOffer_productID),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      });
+    };
+
+    if (popupOffer.dataset.once == 'true') {
+      if (localStorage.getItem('secondVisit') !== 'true') {
+        displayPopupOffer();
+        localStorage.setItem('secondVisit', 'true');
+      }
+    } else {
+      displayPopupOffer();
+      localStorage.setItem('secondVisit', 'false');
+    }
+  }
 </script>
 
 {% schema %}
 {
   "name": "Popup offer",
-  "class": "popup_offer_wrapper",
+  "class": "popup_offer_wrapper is-hide-popup",
   "tag": "section",
   "settings": [
     {
@@ -93,7 +128,7 @@
       "type": "number",
       "id": "popup_offer__delay",
       "label": "Delay in seconds",
-      "default": 4
+      "default": 2
     },
     {
       "type": "checkbox",

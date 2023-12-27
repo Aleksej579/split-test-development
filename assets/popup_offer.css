@@ -4,15 +4,18 @@
     --color-grey--dark: #666666;
     --color-black: #000000;
     --color-orange: #EF7D36;
+    --timer-animate: 500ms;
 }
 
 body {
     position: relative;
 }
+.popup_offer_wrapper.is-hide-popup {
+    display: none;
+}
 .popup_offer_wrapper {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     position: absolute;
     left: 0;
     top: 0;
@@ -23,51 +26,102 @@ body {
 }
 .popup_offer_wrapper ul {
     padding: 0;
+    margin: 0;
 }
 .popup-offer {
     background-color: var(--color-grey--light);
     padding: 30px;
     width: 60%;
+    max-width: 900px;
     display: flex;
     justify-content: space-between;
-    gap: 7%;
+    align-items: center;
+    gap: 5%;
     height: fit-content;
     margin-top: 10%;
     position: fixed;
 }
+@media (max-width: 1440px) {
+    .popup-offer {
+        width: 80%;
+        margin-top: 15%;
+    }
+}
+@media (max-width: 1024px) {
+    .popup-offer {
+        width: 90%;
+        margin-top: 18%;
+    }
+}
+@media (max-width: 768px) {
+    .popup-offer {
+        flex-direction: column;
+    }
+}
+.popup-offer > img {
+    width: 35%;
+    height: auto;
+}
+@media (max-width: 768px) {
+    .popup-offer>img {
+        display: none;
+    }
+}
 .popup-offer > *:last-child {
-    width: 70%;
+    width: 60%;
+}
+@media (max-width: 768px) {
+    .popup-offer > *:last-child {
+        width: 100%;
+    }
 }
 .popup-offer ul li {
     display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 5%;
 }
 .popup-offer__title {
     font-family: "CallunaSansBold";
     text-transform: uppercase;
     color: var(--color-orange);
     font-weight: 600;
-        margin: 10px 0 0;
+    margin: 10px 0 0;
+    font-size: 15px;
+    letter-spacing: 0.1px;
+}
+@media (max-width: 1024px) {
+    .popup-offer__title {
+        font-size: 13px;
+    }
 }
 .popup-offer__sub-title {
-    font-family: "ParalexBold";
-    font-size: 35px;
-    font-weight: 600;
+    font-family: "Paralex Bold";
+    font-size: 30px;
     color: var(--color-black);
-    margin: 0;
+    margin: 0 0 30px 0;
+    line-height: 45px;
 }
-.popup_offer__product img {
-    margin-right: 20px;
+@media (max-width: 1024px) {
+    .popup-offer__sub-title {
+        line-height: 30px;
+        font-size: 30px;
+    }
 }
 .popup_offer__product p {
     margin: 0;
     color: var(--color-black);
     font-family: "Musica";
-    font-family: "ParalexBold";
+    line-height: 20px;
 }
 .popup_offer__product p:first-child {
     color: var(--color-grey--dark);
     font-size: 12px;
     text-transform: uppercase;
+    margin-bottom: 5px;
+}
+.popup_offer__product p:last-child {
+    margin-top: 10px;
 }
 .popup_offer__product p:last-child span:first-child {
     color: var(--color-orange);
@@ -76,13 +130,13 @@ body {
 }
 .popup_offer__product p:last-child span:last-child {
     color: var(--color-grey--dark);
-    font-size: 18px;
+    font-size: 15px;
     text-decoration: line-through;
 }
 
 .popup-offer button {
     background: none;
-    border: 1px solid black;
+    border: 1px solid var(--color-black);
     padding: 10px 30px;
     margin-top: 30px;
     text-transform: uppercase;
@@ -90,7 +144,41 @@ body {
     display: flex;
     align-items: center;
     gap: 7px;
+    font-weight: 600;
+    transition-duration: var(--timer-animate);
+}
+@media (max-width: 768px) {
+    .popup-offer button {
+        margin: 0 auto;
+    }
+}
+.popup-offer button:hover {
+    background-color: var(--color-black);
+    color: var(--color-grey--light);
 }
 .popup-offer button svg {
     width: 20px;
+    transition-duration: var(--timer-animate);
+}
+.popup-offer button:hover svg {
+    fill: var(--color-grey--light);
+}
+
+.popup-offer .icon-close-wrapper {
+    display: none;
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding: 8px;
+    cursor: pointer;
+    transition-duration: var(--timer-animate);
+}
+@media (max-width: 425px) {
+    .popup-offer .icon-close-wrapper {
+        display: block;
+    }
+}
+.popup-offer .icon-close-wrapper:hover svg {
+    stroke: var(--color-black);
 }
