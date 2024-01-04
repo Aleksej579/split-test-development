@@ -68,15 +68,15 @@
       "type": "popup_offer",
       "blocks": {
         "0b0a53a0-6c1a-453b-818d-96af519555e7": {
-          "type": "Products",
+          "type": "products",
           "settings": {
-            "product-handle": "steven-land"
+            "product_handle": "steven-land"
           }
         },
         "7c4320f0-4486-47cd-bee8-f56e5764bd39": {
-          "type": "Products",
+          "type": "products",
           "settings": {
-            "product-handle": "steven-land-shoes"
+            "product_handle": "steven-land-shoes"
           }
         }
       },
@@ -85,12 +85,12 @@
         "7c4320f0-4486-47cd-bee8-f56e5764bd39"
       ],
       "settings": {
-        "popup_offer__show": true,
-        "popup_offer__image": "shopify://shop_images/1.png",
-        "popup_offer__heading": "Get the look",
-        "popup_offer__sub-heading": "For Business or Ceremony",
-        "popup_offer__delay": 2,
-        "show-once__popup_offer": false
+        "show_hide": true,
+        "sidebar_image": "shopify://shop_images/1.png",
+        "heading": "Get the look",
+        "sub_heading": "For Business or Ceremony",
+        "delay_show": 2,
+        "show_once": false
       }
     }
   },

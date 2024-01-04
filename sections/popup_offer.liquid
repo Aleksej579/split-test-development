@@ -3,30 +3,30 @@
 
 <article
   class="popup-offer"
-  data-delay="{{ section.settings.popup_offer__delay }}"
-  data-once="{{ section.settings.show-once__popup_offer }}"
+  data-delay="{{ section.settings.delay_show }}"
+  data-once="{{ section.settings.show_once__popup_offer }}"
 >
-  {% if section.settings.popup_offer__show == true %}
+  {% if section.settings.show_hide == true %}
     <span class="icon-close-wrapper">{% render 'icon-close' %}</span>
-    {{ section.settings.popup_offer__image | image_url: width: 300 | image_tag }}
+    {{ section.settings.sidebar_image | image_url: width: 300 | image_tag }}
     <div>
-      <p class="popup-offer__title">{{ section.settings.popup_offer__heading }}</p>
-      <p class="popup-offer__sub-title">{{ section.settings['popup_offer__sub-heading'] }}</p>
+      <p class="popup-offer__title">{{ section.settings.heading }}</p>
+      <p class="popup-offer__sub-title">{{ section.settings.sub_heading }}</p>
       <ul>
         {%- for block in section.blocks -%}
           <li
-            class="popup_offer__product"
-            data-id="{{ block.settings['product-handle'].first_available_variant.id }}"
+            class="popup-offer__product"
+            data-id="{{ block.settings.product_handle.first_available_variant.id }}"
           >
-            {{ block.settings['product-handle'] | image_url: width: 100 | image_tag }}
+            {{ block.settings.product_handle | image_url: width: 100 | image_tag }}
             <div>
-              {% assign current_variant = block.settings['product-handle'].selected_or_first_available_variant %}
+              {% assign current_variant = block.settings.product_handle.selected_or_first_available_variant %}
               <p>SKU: {{ current_variant.sku }}</p>
-              <p>{{ block.settings['product-handle'].title }}</p>
-              <p>{{ block.settings['product-handle'].description }}</p>
+              <p>{{ block.settings.product_handle.title }}</p>
+              <p>{{ block.settings.product_handle.description }}</p>
               <p>
-                <span>{{ block.settings['product-handle'].price | money }}</span>
-                <span>{{ block.settings['product-handle'].compare_at_price | money }}</span>
+                <span>{{ block.settings.product_handle.price | money }}</span>
+                <span>{{ block.settings.product_handle.compare_at_price | money }}</span>
               </p>
             </div>
           </li>
@@ -38,10 +38,10 @@
 </article>
 
 <script>
-  let popupOffer_wrapper = document.querySelector('.popup_offer_wrapper');
+  let popupOffer_wrapper = document.querySelector('.popup-offer-wrapper');
   let popupOffer = document.querySelector('.popup-offer');
   let popupOffer_iconClose = document.querySelector('.icon-close-wrapper');
-  let popupOffer_arrayId = popupOffer.querySelectorAll('.popup_offer__product');
+  let popupOffer_arrayId = popupOffer.querySelectorAll('.popup-offer__product');
   let popupOffer_byButton = popupOffer.querySelector('button');
   let popupOffer_productID = {
     items: [],
@@ -54,7 +54,7 @@
       }, document.querySelector('.popup-offer').dataset.delay * 1000);
 
       popupOffer_wrapper.addEventListener('click', (event) => {
-        if (event.target.classList.contains('popup_offer_wrapper')) {
+        if (event.target.classList.contains('popup-offer-wrapper')) {
           popupOffer_wrapper.classList.add('is-hide-popup');
         }
       });
@@ -99,41 +99,41 @@
 {% schema %}
 {
   "name": "Popup offer",
-  "class": "popup_offer_wrapper is-hide-popup",
+  "class": "popup-offer-wrapper is-hide-popup",
   "tag": "section",
   "settings": [
     {
       "type": "checkbox",
-      "id": "popup_offer__show",
+      "id": "show_hide",
       "label": "Show popup_offer",
       "default": true
     },
     {
       "type": "image_picker",
-      "id": "popup_offer__image",
+      "id": "sidebar_image",
       "label": "Main image"
     },
     {
       "type": "text",
-      "id": "popup_offer__heading",
+      "id": "heading",
       "label": "Heading",
       "default": "Get the look"
     },
     {
       "type": "text",
-      "id": "popup_offer__sub-heading",
+      "id": "sub_heading",
       "label": "Sub heading",
       "default": "For Business or Ceremony"
     },
     {
       "type": "number",
-      "id": "popup_offer__delay",
+      "id": "delay_show",
       "label": "Delay in seconds",
       "default": 2
     },
     {
       "type": "checkbox",
-      "id": "show-once__popup_offer",
+      "id": "show_once",
       "label": "Show only once per customer",
       "default": false
     }
@@ -142,12 +142,12 @@
   "blocks": [
     {
       "name": "Products",
-      "type": "Products",
+      "type": "products",
       "settings": [
         {
           "type": "product",
-          "id": "product-handle",
-          "label": "Product-Handle"
+          "id": "product_handle",
+          "label": "Product handle"
         }
       ]
     }
